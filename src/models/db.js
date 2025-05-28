@@ -4,12 +4,16 @@ const client = new MongoClient(uri);
 
 let productsCollection;
 let categoryCollection;
+let usersCollection;
 let fileCollection;
+let todoCollection;
 
 async function connectDB() {
   try {
     await client.connect();
     const db = client.db("backendFIleUpload");
+    todoCollection = db.collection("todo");
+    usersCollection = db.collection("users");
     productsCollection = db.collection("products");
     categoryCollection = db.collection("category");
 
@@ -30,6 +34,13 @@ function getCategoryCollection() {
   return categoryCollection;
 }
 
+function getTodoCollection() {
+  return todoCollection;
+}
+function getUsersCollection() {
+  return usersCollection;
+}
+
 function getFileCollection() {
   return fileCollection;
 }
@@ -38,4 +49,6 @@ module.exports = {
   getProductCollection,
   getCategoryCollection,
   getFileCollection,
+  getTodoCollection,
+  getUsersCollection,
 };
