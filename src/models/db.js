@@ -2,53 +2,52 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
+let db;
 let productsCollection;
 let categoryCollection;
 let usersCollection;
 let fileCollection;
 let todoCollection;
+let ordersCollection;
 
 async function connectDB() {
   try {
     await client.connect();
-    const db = client.db("backendFIleUpload");
+    db = client.db("backendFIleUpload");
     todoCollection = db.collection("todo");
     usersCollection = db.collection("users");
     productsCollection = db.collection("products");
     categoryCollection = db.collection("category");
+    ordersCollection = db.collection("orders");
 
     fileCollection = db.collection("files");
     console.log("mongodb connected successfully");
-    return client.db("fileUploaderDB");
   } catch (error) {
     console.error("mongodb connecting errors", error);
     process.exit(1);
   }
 }
 
-function getProductCollection() {
-  return productsCollection;
-}
+const getDB = () => db;
 
-function getCategoryCollection() {
-  return categoryCollection;
-}
+const getProductCollection = () => productsCollection;
+const getCategoryCollection = () => categoryCollection;
 
-function getTodoCollection() {
-  return todoCollection;
-}
-function getUsersCollection() {
-  return usersCollection;
-}
+const getTodoCollection = () => todoCollection;
 
-function getFileCollection() {
-  return fileCollection;
-}
+const getUsersCollection = () => usersCollection;
+
+const getFileCollection = () => fileCollection;
+
+const getOrdersCollection = () => ordersCollection;
+
 module.exports = {
+  getDB,
   connectDB,
   getProductCollection,
   getCategoryCollection,
   getFileCollection,
   getTodoCollection,
   getUsersCollection,
+  getOrdersCollection,
 };

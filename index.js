@@ -14,7 +14,7 @@ const categoryRouter = require("./src/routes/categoryRoute");
 const userRoutes = require("./src/routes/userRoutes");
 const todoRoutes = require("./src/routes/todoRoute");
 const fileUpload = require("./src/routes/fileUpload");
-
+const orderRoutes = require("./src/routes/orders");
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -24,6 +24,8 @@ app.use("/products", productRouter);
 app.use("/todos", todoRoutes);
 app.use("/users", userRoutes);
 app.use("/upload", fileUpload);
+
+app.use("/orders", orderRoutes);
 
 app.use("/category", categoryRouter);
 connectDB().then(() => {

@@ -11,11 +11,11 @@ const uploadFile = async (req, res) => {
   const file = req.file;
   if (!file) return res.status(400).send("no file uploaded");
 
+  const filePath = path.join("media", file.filename);
+
   const fileDoc = {
-    filename: file.originalname,
-    mimetype: file.mimetype,
-    size: file.size,
-    uploadedAt: new Date(),
+    filename: file.filename,
+    path: filePath,
   };
 
   await fileCollection.insertOne(fileDoc);
