@@ -44,9 +44,35 @@ const updateProducts = async (req, res) => {
   res.send(result);
 };
 
+const searchProducts = async (req, res) => {
+  try {
+    const productsCollection = getProductCollection();
+    const searchQuery = req.query.product;
+
+    if (!searchQuery) {
+      return res.status(400).json({ message: "no products found" });
+    }
+
+    const result = await productsCollection
+      .find({
+        name: { $regex: searchQuery, $options: "i" },
+      })
+      .toArray();
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "no products found" });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("server error", error);
+    res.status(500).json({ message: "server error" });
+  }
+};
+
 module.exports = {
   getAllProducts,
   createProducst,
   deleteProducts,
   updateProducts,
+  searchProducts,
 };
